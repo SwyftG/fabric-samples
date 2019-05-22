@@ -7,7 +7,7 @@ SPDX-License-Identifier: Apache-2.0
  * 1. Select an identity from a wallet
  * 2. Connect to network gateway
  * 3. Access PaperNet network
- * 4. Construct request to issue commercial paper
+ * 4. Construct request to return digit book by Balaji
  * 5. Submit transaction
  * 6. Process response
  */
@@ -18,7 +18,7 @@ SPDX-License-Identifier: Apache-2.0
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { FileSystemWallet, Gateway } = require('fabric-network');
-const CommercialPaper = require('../contract/lib/paper.js');
+const DigitBook = require('../contract/lib/book.js');
 
 // A wallet stores a collection of identities for use
 const wallet = new FileSystemWallet('../identity/user/balaji/wallet');
@@ -58,21 +58,21 @@ async function main() {
     const network = await gateway.getNetwork('mychannel');
 
     // Get addressability to commercial paper contract
-    console.log('Use org.papernet.commercialpaper smart contract.');
+      console.log('Use org.papernet.digitbook smart contract.');
 
-    const contract = await network.getContract('papercontract', 'org.papernet.commercialpaper');
+    const contract = await network.getContract('bookcontract', 'org.papernet.digitbook');
 
-    // buy commercial paper
-    console.log('Submit commercial paper buy transaction.');
+    // return process
+    console.log('Submit commercial paper return transaction.');
 
-    const buyResponse = await contract.submitTransaction('buy', 'MagnetoCorp', '00001', 'MagnetoCorp', 'DigiBank', '4900000', '2020-05-31');
+    const returnResponse = await contract.submitTransaction('return', 'TokyoBookstore', '00001', 'LEARNING JAPANESE', 'DigiBankBalaji');
 
     // process response
-    console.log('Process buy transaction response.');
+    console.log('Process return transaction response.');
 
-    let paper = CommercialPaper.fromBuffer(buyResponse);
+    let paper = DigitBook.fromBuffer(returnResponse);
 
-    console.log(`${paper.issuer} commercial paper : ${paper.paperNumber} successfully purchased by ${paper.owner}`);
+    console.log(`commercial paper : ${paper.bookNumber} successfully returned to ${paper.owner}`);
     console.log('Transaction complete.');
 
   } catch (error) {

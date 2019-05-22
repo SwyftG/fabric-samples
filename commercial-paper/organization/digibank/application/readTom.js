@@ -7,7 +7,7 @@ SPDX-License-Identifier: Apache-2.0
  * 1. Select an identity from a wallet
  * 2. Connect to network gateway
  * 3. Access PaperNet network
- * 4. Construct request to issue commercial paper
+ * 4. Construct request to read digit books
  * 5. Submit transaction
  * 6. Process response
  */
@@ -18,10 +18,11 @@ SPDX-License-Identifier: Apache-2.0
 const fs = require('fs');
 const yaml = require('js-yaml');
 const { FileSystemWallet, Gateway } = require('fabric-network');
-const CommercialPaper = require('../contract/lib/paper.js');
+const DigitBook = require('../contract/lib/book.js');
 
 // A wallet stores a collection of identities for use
-const wallet = new FileSystemWallet('../identity/user/balaji/wallet');
+//const wallet = new FileSystemWallet('../user/isabella/wallet');
+const wallet = new FileSystemWallet('../identity/user/tom/wallet');
 
 // Main program function
 async function main() {
@@ -34,7 +35,7 @@ async function main() {
 
     // Specify userName for network access
     // const userName = 'isabella.issuer@magnetocorp.com';
-    const userName = 'Admin@org1.example.com';
+      const userName = 'Tom@org1.example.com';
 
     // Load connection profile; will be used to locate a gateway
     let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/networkConnection.yaml', 'utf8'));
@@ -56,22 +57,22 @@ async function main() {
 
     const network = await gateway.getNetwork('mychannel');
 
-    // Get addressability to commercial paper contract
-    console.log('Use org.papernet.commercialpaper smart contract.');
+    // Get addressability to digit book contract
+    console.log('Use org.papernet.digitbook smart contract.');
 
-    const contract = await network.getContract('papercontract', 'org.papernet.commercialpaper');
+    const contract = await network.getContract('bookcontract', 'org.papernet.digitbook');
 
-    // redeem commercial paper
-    console.log('Submit commercial paper redeem transaction.');
+    // read digit book
+    console.log('Submit book read transaction.');
 
-    const redeemResponse = await contract.submitTransaction('redeem', 'MagnetoCorp', '00001', 'DigiBank', '2020-11-30');
+    const readResponse = await contract.submitTransaction('read', 'DigiBankTom', '00001', 'LEARNING JAPANESE');
 
     // process response
-    console.log('Process redeem transaction response.');
+    console.log('Process read transaction response.');
 
-    let paper = CommercialPaper.fromBuffer(redeemResponse);
+    let book = DigitBook.fromBuffer(readResponse);
 
-    console.log(`${paper.issuer} commercial paper : ${paper.paperNumber} successfully redeemed with ${paper.owner}`);
+    console.log(`${book.bookNumber} ${book.bookName} get content successfully, content is :  ${book.bookContent}`);
     console.log('Transaction complete.');
 
   } catch (error) {
@@ -89,11 +90,11 @@ async function main() {
 }
 main().then(() => {
 
-  console.log('Redeem program complete.');
+  console.log('Issue program complete.');
 
 }).catch((e) => {
 
-  console.log('Redeem program exception.');
+  console.log('Issue program exception.');
   console.log(e);
   console.log(e.stack);
   process.exit(-1);
