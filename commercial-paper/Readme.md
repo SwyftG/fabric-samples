@@ -1,6 +1,23 @@
+[1. Project Structure](#ProjectStructure)  
+[2. DigitBookContracter](#DigitBookContracter)    
+[3. Environment](#Environment)  
+[4. Scenarios](#Scenarios)  
+[--- BookStore](#ScenariosBookStore)  
+[--- DigiBank](#ScenariosDigiBank)  
+[--- Back To Bookstore](#ScenariosBackToBookstore)  
+[5. Answer For Questions](#Answer)  
+[--- Question 1](#Answer1)  
+[--- Question 2](#Answer2)  
+[--- Question 3](#Answer3)  
+[--- Question 4](#Answer4)  
+[6. At Last](#Last)  
+[7. Contact Me](#Contact)  
+
 # Blocckchain BookstoreApp
 
 BookstoreApp is modified from comericial_paper example of HyperLedger Fabric. The Bookstore role is to `ISSUE` and `PUBLISH` the digit book. The customer role can `BUY` and `RETURN` the digit book. Both roles can have access to read book if they own the book.
+
+<span id="ProjectStructure"/>
 
 ### Project Structure
 
@@ -33,6 +50,8 @@ Under `/organization/bookstore/contract/lib/` folder, here is the digit contract
  - `bookcontract` this is smart contract for Hyperledger Fabric.
  - 'booklist' the meaning is as its name.
 
+<span id="DigitBookContracter"/>
+
 ### DigitBookContracter
 
 The smart contract in Bookstroe basic_net is called DigitBookContract. The basic unit is DigitBook, which has six states: 
@@ -47,13 +66,15 @@ For bookstore, every book in bookstore should be issued first. If bookstore owne
 
 For buyer, they only can buy the book which state is PUBLISHED. Becuase those PUBLISHED books are ready to trade in bookstore. After they buy book successfully, they can access to read the book. Because the owner of the book has changed to be them. The buyer also have right to return the book to the bookstore if they want to. After they returned, they will lose the read access.
 
+<span id="Environment"/>
+
 ### Environment
 
 I have deployed the BookstoreApp on my Tencent Clound EC2. 
 
-IP addrss: 140.143.9.16
+IP addrss: **140.143.9.16**
 
-Root Password: In the email.
+Root Password: **In the email**.
 
 After login EC2 as root, first should add node to PATH by `source nvm/nvm.sh`. Then the envirnment of my EC2 is below.
 
@@ -95,7 +116,11 @@ Open another terminal, go to DigiBank directary, `/fabric-samples/commercial-pap
 
 ![docker-compose -f docker-compose.yml up -d cliDigiBank](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/008.png)
 
+<span id="Scenarios"/>
+
 ### Scenarios
+
+<span id="ScenariosBookStore"/>
 
 #### BookStore
 
@@ -124,6 +149,8 @@ If she want to sell the book, she has to publish the book.
 After the book published, it is ready to be selled. But right now, Tom amd Balaji, who are from DigiBank, have no right to read the book. Because the book is owned by the bookstore.
 
 ![Tom and Balaji have no right to read the book](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/014.png)
+
+<span id="ScenariosDigiBank"/>
 
 #### DigiBank
 
@@ -167,6 +194,8 @@ Now the book is owned by bookstore, its state is RETURNED. RETURNED book can not
 
 ![Balaji can not buy the RETURNED book](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/024.png)
 
+<span id="ScenariosBackToBookstore"/>
+
 #### back to Bookstore
 
 Bcause the book is returned, bookstore owner can access to read RETURNED book.
@@ -183,7 +212,11 @@ Let's see what happend when Tom does not have enough money to buy the book.
 
 Right now, the whole lifecycle of the digit book has been finished. There are a lot improvable place in this proces, like issue and publish mutiple books, implement floating prices, every book can be reselled etc.
 
+<span id="Answer"/>
+
 ### Answer for Question
+
+<span id="Answer1"/>
 
 #### 1. Please create a method to prevent anyone other than the purchaser from redeeming the commercial paper.
 
@@ -234,6 +267,8 @@ In `/contract/lib/bookcontract.js` file, there is a `return()` method implemente
     }
 ```
 
+<span id="Answer2"/>
+
 #### 2. Submit any corections needed to make paperNet work practically in multiple organizations.
 
 Step one: should add crypto-config  in dicrection `/fabic-sample/basic-network/crypto-config/`. We need multiple CA files and pem files. The needed file we could check the example under directary `/peerOrgiations/org1.example.com/users/User1@org1.example.com/`
@@ -243,6 +278,8 @@ Step one: should add crypto-config  in dicrection `/fabic-sample/basic-network/c
 Step two: modify `/organization/<orgainization name>/gateway/papernetConnection.yaml` file. Modify or add new organization in here. Modify `channels:<chanel name>:peers:`, `organizations: xxxxxx` fileds.
 
 Step three: modify `/organization/xxxxxx/application/addToWallet.js` file. Add correct identity and certification config into wallet file. Make sure that the contract and application function could work correctly.
+
+<span id="Answer3"/>
 
 #### 3. In order use Kafka/ zookeeper in the orderer. How to do it.
 
@@ -267,6 +304,8 @@ Step three: modify `/organization/xxxxxx/application/addToWallet.js` file. Add c
 10. At last, bring up the nodes in the following order: ZooKeeper ensemble, Kafka cluster, ordering service nodes.
 
 Reference of this question: https://hyperledger-fabric.readthedocs.io/en/release-1.4/kafka.html
+
+<span id="Answer4"/>
 
 #### 4. Using Raft in Order.
 
@@ -340,5 +379,14 @@ Removing a node from a Raft cluster is done by:
 
 Reference of this question: https://hyperledger-fabric.readthedocs.io/en/release-1.4/raft_configuration.html#
 
+<span id="Last"/>
 
 ### At last
+
+Thanks for gaving me this test. I have learnt a lot from it. Actually I had studied crypto currency at the begining of 2018. My colleages and me had a side project at that moment. We tried to mining cryto currency on the smartphone. So we had studied it last a few weeks. Unfortunately the project was abandoned after few weeks. But in my heart, I have faith on blockchain technology. I believe this is a shining tech to bring new hi-tech revolution to our life. I practice blockchain therory in this test, build a project by my hand. Wrote code, deploied code on cloud server and debug the program. Eventhough the project is not perfect, still has a lot of things to de, it raise up my horizon. The time is short to code it, but I still want to code in this area. It is really exciting when I am coding a blockchain application. Although I am an Android Developer right now, I am strongly willing to be an backend blockchain engineer. 
+
+Thank you very much. If you have any questions, please feel free to contact to my via email.
+
+<span id="Contact"/>
+
+Emaill: gaoliangcode@gmail.com
