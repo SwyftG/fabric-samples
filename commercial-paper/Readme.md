@@ -70,12 +70,12 @@ The Hyperledger Fabirc Sample is located in directory `/root/dev/go/src/github.c
 
 If you first start the project, should go to `/fabric-samples/basic-network/` to start the basic_net by following command: `. start.sh`.
 
-![start.sh](001)
+![start.sh](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/001.png)
 
-![dockr ps](002)
+![dockr ps](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/002.png)
 Then `cd /fabric-samples/commercial-paper/organization/bookstore/configuration/cli/` folder, `docker-compose` cliDigitbook by following command: `docker-compose -f docker-compose.yml up -d cliBookStore`.
 
-![docker-compose -f docker-compose.yml up -d cliBookStore](003)
+![docker-compose -f docker-compose.yml up -d cliBookStore](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/003.png)
 
 Open a new terminal, log in EC2 and go to same directory as `/fabric-samples/commercial-paper/organization/bookstore/configuration/cli/`, use following command `./monitordocker.sh net_basic ` to start a new docker image to monionter basic_net.
 
