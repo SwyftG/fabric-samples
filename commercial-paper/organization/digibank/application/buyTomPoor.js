@@ -7,7 +7,7 @@ SPDX-License-Identifier: Apache-2.0
  * 1. Select an identity from a wallet
  * 2. Connect to network gateway
  * 3. Access PaperNet network
- * 4. Construct request to publish digit books
+ * 4. Construct request to buy digit book from bookstore
  * 5. Submit transaction
  * 6. Process response
  */
@@ -21,8 +21,7 @@ const { FileSystemWallet, Gateway } = require('fabric-network');
 const DigitBook = require('../contract/lib/book.js');
 
 // A wallet stores a collection of identities for use
-//const wallet = new FileSystemWallet('../user/isabella/wallet');
-const wallet = new FileSystemWallet('../identity/user/isabella/wallet');
+const wallet = new FileSystemWallet('../identity/user/tom/wallet');
 
 // Main program function
 async function main() {
@@ -35,16 +34,17 @@ async function main() {
 
     // Specify userName for network access
     // const userName = 'isabella.issuer@magnetocorp.com';
-    const userName = 'User1@org1.example.com';
+    const userName = 'Tom@org1.example.com';
 
     // Load connection profile; will be used to locate a gateway
     let connectionProfile = yaml.safeLoad(fs.readFileSync('../gateway/networkConnection.yaml', 'utf8'));
 
     // Set connection options; identity and wallet
     let connectionOptions = {
-        identity: userName,
-        wallet: wallet,
-        discovery: { enabled:false, asLocalhost: true }
+      identity: userName,
+      wallet: wallet,
+      discovery: { enabled:false, asLocalhost: true }
+
     };
 
     // Connect to gateway using application specified parameters
@@ -57,22 +57,22 @@ async function main() {
 
     const network = await gateway.getNetwork('mychannel');
 
-    // Get addressability to commercial paper contract
-    console.log('Use org.papernet.digitbook smart contract.');
+    // Get addressability to digit book contract
+      console.log('Use org.papernet.digitbook smart contract.');
 
     const contract = await network.getContract('bookcontract', 'org.papernet.digitbook');
 
-    // issue commercial paper
-    console.log('Submit book read transaction.');
+    // buy digit book
+    console.log('Submit digit book buy transaction.');
 
-    const publishResponse = await contract.submitTransaction('publish', 'TokyoBookstore', '00001', 'LEARNING JAPANESE', '8000');
+    const buyResponse = await contract.submitTransaction('buy', 'TokyoBookstore', '00001', 'LEARNING JAPANESE', 'DigiBankTom', '100');
 
     // process response
-    console.log('Process issue transaction response.');
+    console.log('Process buy transaction response.');
 
-    let book = DigitBook.fromBuffer(publishResponse);
+    let paper = DigitBook.fromBuffer(buyResponse);
 
-    console.log(`${book.bookNumber} ${book.bookName} successfully published by bookstore ${book.bookStore} in price ${book.bookPrice}`);
+      console.log(`${paper.owner} success buy the book ${book.bookNumber} ${book.bookName} .`);
     console.log('Transaction complete.');
 
   } catch (error) {
@@ -90,11 +90,11 @@ async function main() {
 }
 main().then(() => {
 
-  console.log('Publish program complete.');
+  console.log('Buy program complete.');
 
 }).catch((e) => {
 
-  console.log('Publish program exception.');
+  console.log('Buy program exception.');
   console.log(e);
   console.log(e.stack);
   process.exit(-1);

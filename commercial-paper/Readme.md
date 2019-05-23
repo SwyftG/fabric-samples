@@ -79,21 +79,21 @@ Then `cd /fabric-samples/commercial-paper/organization/bookstore/configuration/c
 
 Open a new terminal, log in EC2 and go to same directory as `/fabric-samples/commercial-paper/organization/bookstore/configuration/cli/`, use following command `./monitordocker.sh net_basic ` to start a new docker image to monionter basic_net.
 
-![. monitor](004)
+![. monitor](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/004.png)
 
-![docker ps](005)
+![docker ps](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/005.png)
 
 Back to Bookstore terminal, use command `docker exec cliBookStore peer chaincode install -n bookcontract -v 0 -p /opt/gopath/src/github.com/contract -l node` to install `bookcontract` on chaincode peer.
 
-![docker exec cliBookStore peer chaincode install -n bookcontract -v 0 -p /opt/gopath/src/github.com/contract -l node](006)
+![docker exec cliBookStore peer chaincode install -n bookcontract -v 0 -p /opt/gopath/src/github.com/contract -l node](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/006.png)
 
 Use command `docker exec cliBookStore peer chaincode instantiate -n bookcontract -v 0 -l node -c '{"Args":["org.papernet.digitbook:instantiate"]}' -C mychannel -P "AND ('Org1MSP.member')"` to instantiate bookcontract to the whole net. 
 
-![docker exec cliBookStore peer chaincode instantiate ...](007)
+![docker exec cliBookStore peer chaincode instantiate ...](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/007.png)
 
 Open another terminal, go to DigiBank directary, `/fabric-samples/commercial-paper/organization/digibank/configuration/cli/`, use followed command to start cliDigiBank: `docker-compose -f docker-compose.yml up -d cliDigiBank`.
 
-![docker-compose -f docker-compose.yml up -d cliDigiBank](008)
+![docker-compose -f docker-compose.yml up -d cliDigiBank](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/008.png)
 
 ### Scenarios
 
@@ -103,27 +103,27 @@ In the BookStore terminal, our star is Isabella, application direction is `/fabr
 
 Isabella is the owner of TokyoBookstore. In our BookstoreApp, her first thing is to addToWallet.
 
-![Isabella add wallet](009)
+![Isabella add wallet](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/009.png)
 
 Then she issued the book *LEARNING JAPANESE* as bookNumber *00001* on the net.
 
-![issued digit book](010)
+![issued digit book](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/010.png)
 
 Right now, `query` the book info:
 
-![query the book](011)
+![query the book](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/011.png)
 
 After she issued the book, she can access to read it.
 
-![read the book](012)
+![read the book](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/012.png)
 
 If she want to sell the book, she has to publish the book.
 
-![publish the book](013)
+![publish the book](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/013.png)
 
 After the book published, it is ready to be selled. But right now, Tom amd Balaji, who are from DigiBank, have no right to read the book. Because the book is owned by the bookstore.
 
-![Tom and Balaji have no right to read the book](014)
+![Tom and Balaji have no right to read the book](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/014.png)
 
 #### DigiBank
 
@@ -131,55 +131,55 @@ Open another terminal as DigiBank
 
 Tom and Balaji are in DigiBank. They have different wallet address. Let's see the addTomToWallet and addBalajiToWallet.
 
-![addTomToWallet](015) 
+![addTomToWallet](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/015.png) 
 
 After they add wallets to the net, they can purchase the book. Let Balaji buy the book.
 
-![Balaji buy the book from bookstore](016)
+![Balaji buy the book from bookstore](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/016.png)
 
 Query the book, check its state now:
 
-![query book](017)
+![query book](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/017.png)
 
 Right now the book is belonged to Balaji, he has right to read the book, while Tom does not.
 
-![Balaji access to read book](018) 
+![Balaji access to read book](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/018.png) 
 
-![Tom can't access to read book](019) 
+![Tom can't access to read book](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/019.png) 
 
 Because the book's state is SELLED, Tom can not purchased the SELLED book.
 
-![Tom can't purchase the selled book](020)
+![Tom can't purchase the selled book](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/020.png)
 
 Also the book is belonged to Balaji, Tom can not return it to BookStore. Bcause he is not the owner.
 
-![Tom can't return the book](021)
+![Tom can't return the book](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/021.png)
 
 The book's owner is Balaji, so Balaji can return the book to bookstore.
 
-![Balaji return book](022)
+![Balaji return book](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/022.png)
 
 After Balajir returned book, he lose the right to read the book.
 
-![Balaji lose right to read book](023)
+![Balaji lose right to read book](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/023.png)
 
 Now the book is owned by bookstore, its state is RETURNED. RETURNED book can not be selled. To sell it, the book needs to be published by bookstore's owner.
 
-![Balaji can not buy the RETURNED book](024)
+![Balaji can not buy the RETURNED book](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/024.png)
 
 #### back to Bookstore
 
 Bcause the book is returned, bookstore owner can access to read RETURNED book.
 
-![Bookstore read RETURNED book](025)
+![Bookstore read RETURNED book](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/025.png)
 
 Owner can publish book again to be sell it.
 
-![Publish the book again](026)
+![Publish the book again](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/026.png)
 
 Let's see what happend when Tom does not have enough money to buy the book.
 
-![Tom does not have evnough money](027)
+![Tom does not have evnough money](https://raw.githubusercontent.com/SwyftG/fabric-samples/release-1.4/commercial-paper/screenshot/027.png)
 
 Right now, the whole lifecycle of the digit book has been finished. There are a lot improvable place in this proces, like issue and publish mutiple books, implement floating prices, every book can be reselled etc.
 
@@ -339,3 +339,6 @@ Removing a node from a Raft cluster is done by:
 3. Shut down the node.
 
 Reference of this question: https://hyperledger-fabric.readthedocs.io/en/release-1.4/raft_configuration.html#
+
+
+### At last

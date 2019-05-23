@@ -7,7 +7,7 @@ SPDX-License-Identifier: Apache-2.0
  * 1. Select an identity from a wallet
  * 2. Connect to network gateway
  * 3. Access PaperNet network
- * 4. Construct request to publish digit books
+ * 4. Construct request to query book's info
  * 5. Submit transaction
  * 6. Process response
  */
@@ -34,7 +34,6 @@ async function main() {
   try {
 
     // Specify userName for network access
-    // const userName = 'isabella.issuer@magnetocorp.com';
     const userName = 'User1@org1.example.com';
 
     // Load connection profile; will be used to locate a gateway
@@ -42,9 +41,9 @@ async function main() {
 
     // Set connection options; identity and wallet
     let connectionOptions = {
-        identity: userName,
-        wallet: wallet,
-        discovery: { enabled:false, asLocalhost: true }
+      identity: userName,
+      wallet: wallet,
+      discovery: { enabled:false, asLocalhost: true }
     };
 
     // Connect to gateway using application specified parameters
@@ -57,22 +56,26 @@ async function main() {
 
     const network = await gateway.getNetwork('mychannel');
 
-    // Get addressability to commercial paper contract
+    // Get addressability to digit book contract
     console.log('Use org.papernet.digitbook smart contract.');
 
     const contract = await network.getContract('bookcontract', 'org.papernet.digitbook');
 
-    // issue commercial paper
-    console.log('Submit book read transaction.');
+    // get read
+    console.log('Submit book query transaction.');
 
-    const publishResponse = await contract.submitTransaction('publish', 'TokyoBookstore', '00001', 'LEARNING JAPANESE', '8000');
+    const queryResponse = await contract.submitTransaction('query', '00001', 'LEARNING JAPANESE');
 
     // process response
-    console.log('Process issue transaction response.');
+    console.log('Process query transaction response.');
 
-    let book = DigitBook.fromBuffer(publishResponse);
+    let book = DigitBook.fromBuffer(queryResponse);
 
-    console.log(`${book.bookNumber} ${book.bookName} successfully published by bookstore ${book.bookStore} in price ${book.bookPrice}`);
+    console.log(`Book Number: ${book.bookName}`);
+    console.log(`Book Name: ${book.bookName}`);
+    console.log(`Book Owner: ${book.owner}`);
+    console.log(`Book Bookstore: ${book.bookStore}`);
+    console.log(`Book State: ${book.currentState}`);
     console.log('Transaction complete.');
 
   } catch (error) {
@@ -90,11 +93,11 @@ async function main() {
 }
 main().then(() => {
 
-  console.log('Publish program complete.');
+  console.log('Query program complete.');
 
 }).catch((e) => {
 
-  console.log('Publish program exception.');
+  console.log('Query program exception.');
   console.log(e);
   console.log(e.stack);
   process.exit(-1);

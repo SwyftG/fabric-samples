@@ -210,7 +210,7 @@ class DigitBookContract extends Contract {
                  book.setOwner(book.getBookStore());
                  book.setReturned();
             } else {
-                throw new Error('Return owner '+ returnOwner + ' does not own book' + bookNumber + bookName);
+                throw new Error('Return owner '+ returnOwner + ' does not own book ' + bookNumber + bookName);
             }
         }
 
@@ -240,6 +240,21 @@ class DigitBookContract extends Contract {
         if (book.getOwner() !== owner) {
             throw new Error('Book ' + bookNumber + bookName + ' is not owned by ' + owner +', who do not have access right.');
         }
+
+        return book.toBuffer();
+    }
+
+    /**
+     * query the digit book
+     *
+     * @param {Context} ctx the query context
+     * @param {String} bookNumber book number
+     * @param {String} bookName name of book
+     */
+    async query(ctx, bookNumber, bookName) {
+
+        let bookKey = DigitBook.makeKey([bookNumber, bookName]);
+        let book = await ctx.bookList.getBook(bookKey);
 
         return book.toBuffer();
     }

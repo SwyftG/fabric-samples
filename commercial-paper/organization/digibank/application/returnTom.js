@@ -90,11 +90,11 @@ async function main() {
 }
 main().then(() => {
 
-  console.log('Buy program complete.');
+  console.log('Return program complete.');
 
 }).catch((e) => {
 
-  console.log('Buy program exception.');
+  console.log('Return program exception.');
   console.log(e);
   console.log(e.stack);
   process.exit(-1);
